@@ -31,9 +31,8 @@ public class ProductService {
         return this.productRepository.findAll();
     }
 
-    public ProductEntity findById(UUID id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Produto não encontrado"));
+    public List<ProductEntity> findProductsByIds(List<UUID> productIds) {
+        return productRepository.findAllById(productIds);
     }
 
 }
