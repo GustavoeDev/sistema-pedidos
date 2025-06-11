@@ -77,11 +77,14 @@ WSGI_APPLICATION = 'costumers_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'costumers_service',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'costumers_service_db',
+        'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
