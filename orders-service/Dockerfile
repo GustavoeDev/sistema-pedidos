@@ -10,6 +10,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . /code/
 
-EXPOSE 8001
+EXPOSE 8000
 
-CMD ["gunicorn", "competitions_service.wsgi:application", "--bind", "0.0.0.0:8001", "--workers", "3", "--timeout", "120"]
+CMD ["bash", "-c", "python manage.py migrate --noinput && gunicorn orders_service.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"]
