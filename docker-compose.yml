@@ -25,5 +25,51 @@ services:
     volumes:
       - product_service_data:/var/lib/postgresql/data
 
+  costumers_service:
+    container_name: costumers_service_web
+    build:
+      context: ./costumers-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+
+    depends_on:
+      - costumers_service_db
+
+  costumers_service_db:
+    container_name: costumers_service_postgres
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+
+    volumes:
+      - costumers_service_data:/var/lib/postgresql/data
+
+  orders_service:
+    container_name: orders_service_web
+    build:
+      context: ./orders-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+
+    depends_on:
+      - orders_service_db
+
+  orders_service_db:
+    container_name: orders_service_postgres
+    image: postgres
+    ports:
+      - 5434:5432
+    environment:
+
+    volumes:
+      - orders_service_data:/var/lib/postgresql/data
+
 volumes:
   product_service_data: {}
+  costumers_service_data: {}
+  orders_service_data: {}
