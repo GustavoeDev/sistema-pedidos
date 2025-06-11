@@ -1,6 +1,5 @@
 services:
-  product_service:
-    container_name: product_service_web
+  productservice:
     build:
       context: ./products-service
       dockerfile: Dockerfile
@@ -11,22 +10,27 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
-      - product_service_db
+      product_service_db:
+        condition: service_healthy
 
   product_service_db:
-    container_name: product_service_postgres
     image: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=product_service
     volumes:
       - product_service_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d product_service" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  costumers_service:
-    container_name: costumers_service_web
+
+  costumersservice:
     build:
       context: ./costumers-service
       dockerfile: Dockerfile
@@ -34,57 +38,65 @@ services:
       - "8010:8000"
     environment:
       - DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=*
-      - DATABASE_NAME=costumers_service
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,costumersservice
+      - DATABASE_NAME=costumersservice
       - DATABASE_USER=admin
       - DATABASE_PASSWORD=admin
-      - DATABASE_HOST=costumers_service_db
+      - DATABASE_HOST=costumersservicedb
       - DATABASE_PORT=5432
     depends_on:
-      - costumers_service_db
+      costumersservicedb:
+        condition: service_healthy
     command: python manage.py runserver 0.0.0.0:8000
 
-  costumers_service_db:
-    container_name: costumers_service_postgres
+  costumersservicedb:
     image: postgres
     ports:
-      - 5441:5432
+      - "5441:5432"
     environment:
-      - POSTGRES_DB=costumers_service
+      - POSTGRES_DB=costumersservice
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
     volumes:
       - costumers_service_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d costumersservice" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  orders_service:
-    container_name: orders_service_web
+  ordersservice:
     build:
       context: ./orders-service
       dockerfile: Dockerfile
     ports:
       - "8011:8000"
-    depends_on:
-      - orders_service_db
     environment:
-      - DATABASE_NAME=orders_service
+      - DATABASE_NAME=ordersservice
       - DATABASE_USER=admin
       - DATABASE_PASSWORD=admin
-      - DATABASE_HOST=orders_service_db
+      - DATABASE_HOST=ordersservicedb
       - DATABASE_PORT=5432
+    depends_on:
+      ordersservicedb:
+        condition: service_healthy
     command: python manage.py runserver 0.0.0.0:8000
 
-
-  orders_service_db:
-    container_name: orders_service_postgres
+  ordersservicedb:
     image: postgres
     ports:
-      - 5440:5432
+      - "5440:5432"
     environment:
-      - POSTGRES_DB=orders_service
+      - POSTGRES_DB=ordersservice
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
     volumes:
       - orders_service_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d ordersservice" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   product_service_data: {}
