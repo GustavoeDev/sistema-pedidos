@@ -1,0 +1,60 @@
+# Arquivos de Bytecode e Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de Dados
+*.sqlite3
+db.sqlite3
+/db.sqlite3-journal
+
+# Ambiente Virtual
+# Se você cria o ambiente dentro da pasta do projeto, ignore-o.
+# Substitua 'venv' pelo nome da sua pasta de ambiente virtual.
+venv/
+env/
+.venv/
+.env/
+
+# Arquivos de Dependências (geralmente recriados com 'pip install -r requirements.txt')
+pip-wheel-metadata/
+local_wheels/
+
+# Arquivos de Configuração Local e Variáveis de Ambiente
+# NUNCA versione informações sensíveis!
+.env
+.env.*
+local_settings.py
+
+# Arquivos de Mídia e Estáticos coletados pelo 'collectstatic'
+# O código fonte dos estáticos (em apps) deve ser versionado, mas não os arquivos coletados.
+/staticfiles
+/media
+
+# Arquivos de Log e Cobertura de Testes
+*.log
+coverage.xml
+.coverage
+.coverage.*
+htmlcov/
+
+# Configurações de Editores e IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Configurações específicas do macOS e Windows
+.DS_Store
+Thumbs.db
+
+# Arquivos de Notebooks Jupyter/iPython
+.ipynb_checkpoints
+
+# Arquivos gerados por ferramentas de build
+/dist
+/build
+*.egg-info/
+
+# Arquivos de Sessão do Django
+*.json.gz
