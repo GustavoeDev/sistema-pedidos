@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-*4#tvyi8s1-7^xy0nwyni7w11mnru)scybeakwo_&^gd127xs$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
 
 
 # Application definition
@@ -78,11 +79,11 @@ WSGI_APPLICATION = 'costumers_service.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'costumers_service',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'costumers_service_db',
-        'PORT': 5432,
+        'NAME': os.environ.get('DATABASE_NAME'),      # Lê a variável de ambiente 'DATABASE_NAME'
+        'USER': os.environ.get('DATABASE_USER'),      # Lê a variável de ambiente 'DATABASE_USER'
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),# Lê a variável de ambiente 'DATABASE_PASSWORD'
+        'HOST': os.environ.get('DATABASE_HOST'),      # Lê a variável de ambiente 'DATABASE_HOST'
+        'PORT': os.environ.get('DATABASE_PORT'),      # Lê a variável de ambiente 'DATABASE_PORT'
     }
 }
 
