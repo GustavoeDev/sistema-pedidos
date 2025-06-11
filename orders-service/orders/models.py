@@ -10,7 +10,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product_id = models.IntegerField()
+    product_id = models.UUIDField()
     quantity = models.IntegerField()
 
     def __str__(self):
