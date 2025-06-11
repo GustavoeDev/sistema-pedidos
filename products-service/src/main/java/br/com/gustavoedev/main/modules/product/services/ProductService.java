@@ -6,6 +6,8 @@ import br.com.gustavoedev.main.modules.product.entities.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -19,6 +21,10 @@ public class ProductService {
                 });
 
         return this.productRepository.save(productEntity);
+    }
+
+    public List<ProductEntity> getAllProducts() {
+        return this.productRepository.findAll();
     }
 
 }
